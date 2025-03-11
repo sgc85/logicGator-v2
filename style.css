@@ -4,18 +4,19 @@ body {
 }
 
 .gate {
-  width: 100px;
-  height: 60px;
-  background-color: #f0f0f0;
-  border: 1px solid black;
   position: absolute;
-  cursor: pointer;
+  cursor: grab;
+  border: 1px solid black;
+  z-index: 50;
 }
+
+
 
 .gate-btn {
   width: 16px;
   height: 16px;
   border-radius: 8px;
+  z-index: 100;
 }
 
 .app {
@@ -64,4 +65,32 @@ h1 {
   border: 1px solid black;
   padding: 10px;
   flex: 1;
+}
+
+.line {
+  position: absolute;
+}
+
+.left-line, .right-line {
+  position: absolute;
+  width: 50%;
+  height: 3px; /* Thickness of the line */
+  background-color: black;
+}
+
+.left-line {
+  left: 0;
+}
+
+.right-line {
+  right: 0;
+}
+
+.mid-line {
+  position: absolute;
+  width: 3px; /* Thickness */
+  height: 100%;
+  background-color: black;
+  left: 50%;
+  transform: translateX(-50%);
 }
