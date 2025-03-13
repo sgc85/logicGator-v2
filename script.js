@@ -32,7 +32,6 @@ class Circuit {
     if (gate instanceof Output) {
       this.outputs.push(gate);
     }
-
   };
 
   //will be run when connections are made AND when nodes are moved
@@ -163,8 +162,8 @@ class Gate {
     circuitInstance.removeGate(this);
 
     // Remove this gate from all other gates' inputs
-    // this avoids any 'ghost' lines being left from gates that this used to output to 
-    //Goes through all gates 
+    // this avoids any 'ghost' lines being left from gates that this used to output to
+    //Goes through all gates
     circuitInstance.gates.forEach((gate) => {
       // filters their input lists to remove any instances of the removed gate.
       gate.inputs = gate.inputs.filter((input) => input.outputGate !== this);
@@ -209,22 +208,19 @@ class Gate {
 
     // Ensure within bounds - 8px border has been left around edge
     if (newX < 8) newX = 8;
-    if (newX > circuit.clientWidth - this.width)
-      newX = circuit.clientWidth - this.width;
+    if (newX > circuit.clientWidth - this.width - 8)
+      newX = circuit.clientWidth - this.width - 8;
     if (newY < 8) newY = 8;
-    if (newY > circuit.clientHeight - this.height)
-      newY = circuit.clientHeight - this.height;
+    if (newY > circuit.clientHeight - this.height - 8)
+      newY = circuit.clientHeight - this.height - 8;
 
-    // Update position only if it has changed
-    if (this.x !== newX || this.y !== newY) {
-      this.x = newX;
-      this.y = newY;
-      this.element.style.left = `${this.x}px`;
-      this.element.style.top = `${this.y}px`;
+    this.x = newX;
+    this.y = newY;
+    this.element.style.left = `${this.x}px`;
+    this.element.style.top = `${this.y}px`;
 
-      // Update connections
-      circuitInstance.drawConnections();
-    }
+    // Update connections
+    circuitInstance.drawConnections();
   };
 
   // Must use arrow function to retain 'this' in context of object and not the event click
@@ -260,7 +256,7 @@ class AndGate extends Gate {
       //pushes the button outside the give by half the button size
       button.style.left = "-8px";
       // adjust vertical offset for each port i is 0 or 1 so will offset to 0*30 or 1*30 for the two inputs
-      button.style.top = `${i * 30 + 8}px`; 
+      button.style.top = `${i * 30 + 8}px`;
       //setup the onclick to attempt a connection passing in suitable details
       button.onclick = () => attemptConnection(this, "input", i);
       //add the buttons onto the gate div
@@ -278,11 +274,11 @@ class AndGate extends Gate {
     document.getElementById("circuit").appendChild(this.element);
   }
 
-  //This is used when evaluating 
+  //This is used when evaluating
   use = () => {
     //checks to see if 2 gates are connected
     if (this.inputs.length === 2) {
-      //Uses each of the input gates use() method 
+      //Uses each of the input gates use() method
       if (this.inputs[0].outputGate.use() && this.inputs[1].outputGate.use()) {
         //returns 1 if both the use() methods returned 1
         return 1;
@@ -297,13 +293,11 @@ class Input extends Gate {
   constructor() {
     super();
     this.width = 60;
-    this.height = 60;
     this.value = 1;
 
     // Apply styles
     this.element.style.backgroundColor = "green";
     this.element.style.width = `${this.width}px`;
-    this.element.style.height = `${this.height}px`;
     this.element.style.display = "flex";
     this.element.style.alignItems = "center";
     this.element.style.justifyContent = "center";
@@ -317,7 +311,6 @@ class Input extends Gate {
     // Output button
     let outputButton = document.createElement("button");
     outputButton.className = "gate-btn";
-    outputButton.style.position = "absolute";
     outputButton.style.right = "-8px";
     outputButton.style.top = "22px";
     outputButton.onclick = (event) => {
@@ -328,9 +321,9 @@ class Input extends Gate {
 
     // Add click handler
     this.element.addEventListener("click", (event) => {
-      if (!this.isDragging && event.target === this.element) {
+      if (!this.isDragging) {
         // this.handleClick();
-        this.value = this.value === 1 ? 0 : 1;
+        this.value = this.value ? 0 : 1;
         this.element.style.backgroundColor = this.value ? "green" : "red";
 
         // Update only the text node
