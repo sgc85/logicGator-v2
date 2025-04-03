@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 .gate {
@@ -71,6 +72,7 @@ h1 {
 
 .line {
   position: absolute;
+  /* border: 1px solid black; */
 }
 
 .left-line, .right-line {
@@ -94,5 +96,5 @@ h1 {
   height: 100%;
   background-color: black;
   left: 50%;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
 }

@@ -67,7 +67,7 @@ class Circuit {
           let endY = gate.y + gate.height / 2;
 
           // If the receiving gate is an AndGate we need to adjust endY accordingly.
-          if (gate instanceof AndGate) {
+          if (gate instanceof AndGate ) {
             // conn.port will either be 1 or 0 which will offset the position by 0 or 30 respectively.
             //the buttons are 16 across, so +8 will center these
             //+10 will push it away from the top
@@ -276,9 +276,24 @@ class AndGate extends Gate {
 
   //This is used when evaluating
   use = () => {
+
+
+
     //checks to see if 2 gates are connected
     if (this.inputs.length === 2) {
+
+      //NOT GATE LOGIC
+      // if (this.inputs.length === 1){
+      //   if (this.input[0].outputGate.use() === 0){
+      //     return 1
+      //   }
+      // }
+
+      // return 0
+
       //Uses each of the input gates use() method
+      //OR - replace && with ||
+
       if (this.inputs[0].outputGate.use() && this.inputs[1].outputGate.use()) {
         //returns 1 if both the use() methods returned 1
         return 1;
@@ -386,7 +401,6 @@ class Output extends Gate {
   };
 }
 
-// Replace these globals:
 var selectedInput = null;
 var selectedOutput = null;
 
@@ -476,3 +490,7 @@ var connecting = false;
 // var inputGate = null;
 // var outputGate = null;
 const circuitInstance = new Circuit();
+
+
+
+
